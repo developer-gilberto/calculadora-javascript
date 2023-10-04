@@ -1,31 +1,77 @@
-let numbers = document.querySelectorAll('.numbers');
-let operadores = document.querySelectorAll('.operadores');
+let todosNumeros = document.querySelectorAll('.numbers');
+let todosOperadores = document.querySelectorAll('.operadores');
 let display = document.querySelector('.display');
-let ce = document.querySelector('.ce');
+let ceZeraDisplay = document.querySelector('.ce');
 let igual = document.querySelector('.igual');
+let ponto = document.querySelector('.ponto');
+let permiteOperador = true;
+let permitePonto = true;
 
-ce.addEventListener('click', () => {
-    display.textContent = '0'
-})
+ceZeraDisplay.addEventListener('click', () => {
 
-numbers.forEach((numbers) => {
-    numbers.addEventListener('click', () => {
-        if(display.textContent == '0'){
-            display.textContent = ''
-        }
-        display.textContent += numbers.textContent
+    permiteOperador = true;
+    permitePonto = true;
+    display.innerText = '0';
+});
+
+function inserirPonto(){
+
+    if(permitePonto == false){
+
+        display.innerText += '';
+    } else {
+
+        display.innerText += '.';
+        permitePonto = false;
+    };
+};
+
+ponto.addEventListener('click', () => {
+
+    inserirPonto();
+});
+
+todosNumeros.forEach((button) => {
+
+    button.addEventListener('click', () => {
+
+        if(display.innerText == '0'){
+
+            display.innerText = button.innerText;
+        } else {
+
+            display.innerText += button.innerText;   
+        };
     });
-})
+});
 
-operadores.forEach((operadores) => {
-    operadores.addEventListener('click', () => {
-        if(display.textContent == '0'){
-            display.textContent = ''
-        }
-        display.textContent += operadores.textContent
+todosOperadores.forEach((button) => {
+
+    button.addEventListener('click', () => {
+        
+        if(display.innerText == '0'){
+
+            display.innerText = '0' + button.innerText;
+            permiteOperador = false;
+            permitePonto = true;
+        };
+        if(permiteOperador == false){
+
+            display.innerText += '';
+        } else {
+
+            display.innerText += button.innerText;
+            permiteOperador = false;
+            permitePonto = true;
+        };
     });
-})
+});
 
 igual.addEventListener('click', () => {
-    display.textContent = eval(display.textContent);
-})
+
+    console.log('O resultado de ' + display.innerText);
+    display.innerText = eval(display.innerText);
+    permiteOperador = true;
+    permitePonto = true;
+    console.log('É igual a ' + display.innerText);
+});
